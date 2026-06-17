@@ -2,7 +2,7 @@ import makeWASocket, { DisconnectReason, useMultiFileAuthState, downloadContentF
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import pino from 'pino';
 import sharp from 'sharp';
-impor qrcode from 'qrcode-terminal';
+import qrcode from 'qrcode-terminal';
 const phoneNumber = process.env.PHONE_NUMBER.replace(/^0/, '92');
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
