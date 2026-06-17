@@ -23,13 +23,11 @@ async function startBot() {
         console.log('CONNECTION:', connection);
         
         if (connection === 'connecting' &&!state.creds.registered) {
-            console.log('Requesting pairing code...');
-            setTimeout(async () => {
-                const code = await sock.requestPairingCode(phoneNumber);
-                console.log('====== 8 DIGIT CODE ======');
-                console.log(code);
-                console.log('==========================');
-            }, 5000);
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            const code = await sock.requestPairingCode(phoneNumber);
+            console.log('====== 8 DIGIT CODE ======');
+            console.log(code);
+            console.log('==========================');
         }
         
         if (connection === 'close') {
