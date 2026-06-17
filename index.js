@@ -2,7 +2,7 @@ import makeWASocket, { DisconnectReason, useMultiFileAuthState, downloadContentF
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import pino from 'pino';
 import sharp from 'sharp';
-
+impor qrcode from 'qrcode-terminal';
 const phoneNumber = process.env.PHONE_NUMBER.replace(/^0/, '92');
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -10,11 +10,18 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState('./session');
     const sock = makeWASocket({
-        logger: pino({ level: 'silent' }),
-        auth: state,
-        printQRInTerminal: false,
-        browser: ['Free AI Bot', 'Chrome', '120.0.0'],
-    });
+    logger: pino({ level: 'silent' }),
+    auth: state,
+    printQRInTerminal: false,
+    
+    qr: (qr) => {
+        console.log('\n========== SCAN QR CODE ==========')
+        qrcode.generate(qr, { small: true })
+        console.log('==================================\n')
+    },
+    
+    browser: ['Free AI Bot', 'Chrome', '120.0.0'],
+});
 
     sock.ev.on('creds.update', saveCreds);
 
